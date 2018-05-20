@@ -1,0 +1,10 @@
+insert into category (id, version, time_stamp, code, name, short_description) values (1, 1, '2017-10-24 14:08:20', '60565-020', 'Consumer Services', 'Proin eu mi.');
+insert into category (id, version, time_stamp, code, name, short_description) values (2, 1, '2018-01-17 05:34:14', '52685-381', 'Miscellaneous', 'Etiam vel augue. Vestibulum rutrum rutrum neque.');
+insert into category (id, version, time_stamp, code, name, short_description) values (3, 1, '2018-04-16 23:53:09', '49889-1906', 'Transportation', 'Nulla nisl.');
+insert into category (id, version, time_stamp, code, name, short_description) values (4, 1, '2017-12-06 03:53:29', '60505-6104', 'Technology', 'Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.');
+insert into category (id, version, time_stamp, code, name, short_description) values (5, 1, '2018-03-22 05:33:55', '55289-916', 'Education', 'Maecenas ut massa quis augue luctus tincidunt.');
+insert into category (id, version, time_stamp, code, name, short_description) values (6, 1, '2017-12-19 14:07:48', '65862-007', 'Consumer Durables', 'Sed ante. Vivamus tortor.');
+insert into category (id, version, time_stamp, code, name, short_description) values (7, 1, '2017-08-07 03:56:29', '64720-130', 'Consumer Services', 'Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla.');
+insert into category (id, version, time_stamp, code, name, short_description) values (8, 1, '2017-07-23 14:33:54', '0781-5173', 'Industry', 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.');
+insert into category (id, version, time_stamp, code, name, short_description) values (9, 1, '2018-05-09 09:06:17', '0517-0401', 'Finance', 'Aenean auctor gravida sem.');
+insert into category (id, version, time_stamp, code, name, short_description) values (10, 1, '2018-02-25 15:49:32', '57955-0242', 'Health-care', 'Proin risus.');
