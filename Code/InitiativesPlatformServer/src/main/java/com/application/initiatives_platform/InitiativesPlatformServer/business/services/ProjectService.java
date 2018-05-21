@@ -14,7 +14,7 @@ import com.application.initiatives_platform.InitiativesPlatformServer.data.repos
 public class ProjectService {
 	
 	@Autowired private ProjectRepository projectRepository;
-	@Autowired private UserService userService;
+	@Autowired private UserServiceImpl userService;
 	@Autowired private CategoryService categoryService;
 	
 	public void save(String name, String shortDescription, String description, byte[] photo, String proponentUserName, String categoryName) {

@@ -2,7 +2,7 @@ package com.application.initiatives_platform.InitiativesPlatformServer.data.enti
 
 public class UserType {
 
-	private String type;
+	public String type;
 
 	private UserType(String type) {
 		super();

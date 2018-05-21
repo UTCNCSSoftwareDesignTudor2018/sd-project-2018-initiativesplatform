@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-	
+public interface UserRepository extends JpaRepository<User, Long> {
+
+	public User findByAccountInfoUserName(String userName);
 }
