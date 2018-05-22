@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Propose Project</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<style>
+        .thumb {
+          height: 75px;
+          border: 1px solid #000;
+          margin: 10px 5px 0 0;
+        }
+      </style>
+
+</head>
+<body>
+	<form action="http://localhost:8081/projects/propose" method="POST">
+		<table>
+			<tr>
+				<td>Project Name: </td>
+				<td><input type="text" th:name="name" th:id="name" name="name" id="name" placeholder="The name of the project..."/></td>
+				<td>Choose a category for the project: </td>
+				<td>
+					<select name="category" id="category">
+					    <option th:each="category: ${categories}" th:value="${category.name}" th:text="${category.name}"/>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div>
+						Short Description<br>
+						<textarea placeholder="Enter the short description of the project here..." name="shortDescription" id="shortDescription" rows="15" cols="80" style="resize: none"></textarea>
+					</div>
+				</td>
+				<td>
+					<div>
+						Choose a picture from the local file system<input id="files" type="file" name="files[]" multiple/><br>
+						<img name="photo" src="" id="photo" width=256 height=256/>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div>
+						Description<br>
+						<textarea placeholder="Enter the full description of the project here..." name="description" id="description" rows="30" cols="80" style="resize: none"></textarea>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<button type="button" onclick="saveProject('name', 'shortDescription', 'description', 'category', 'photo');">Propose</button>
+	</form>
+	<script>
+	
+    function handleFileSelect(evt) {
+      var files = evt.target.files; // FileList object
+  
+      // Loop through the FileList and render image files as thumbnails.
+      for (var i = 0, f; f = files[i]; i++) {
+  
+        // Only process image files.
+        if (!f.type.match('image.*')) {
+          continue;
+        }
+  
+        var reader = new FileReader();
+  
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+          return function(e) {
+            // Render thumbnail.
+            var img = document.getElementById('photo');
+            img.src = e.target.result;
+          };
+        })(f);
+  
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+      }
+    }
+  	
+    function saveProject(nameId, shortDescriptionId, descriptionId, categoryId, photoId) {
+    	var name = $("#" + nameId).val();
+    	var shortDescription = $("#" + shortDescriptionId).val();
+    	var description = $("#" + descriptionId).val();
+    	var category = $("#" + categoryId).val();
+    	var photo = $("#" + photoId).attr('src');
+    	console.log(name);
+    	console.log(shortDescription);
+    	console.log(category);
+    	console.log(description);
+    	var data = {
+    			'name': name,
+    			'shortDescription': shortDescription,
+    			'description': description,
+    			'category': category,
+    			'photo': photo
+    	};
+    	$.post('http://localhost:8081/projects/propose', data, function(response) {
+    		console.log(response);
+    	});
+    }
+    
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+  	
+    </script>
+</body>
+</html>

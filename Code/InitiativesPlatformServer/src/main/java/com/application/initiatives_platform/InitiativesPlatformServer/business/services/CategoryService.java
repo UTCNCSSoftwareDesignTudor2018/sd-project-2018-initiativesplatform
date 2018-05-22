@@ -1,7 +1,7 @@
 package com.application.initiatives_platform.InitiativesPlatformServer.business.services;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,14 @@ public class CategoryService {
 	}
 
 	public List<Category> findAll() {
-		Category c1 = new Category("name1", "description1", "code1");
-		Category c2 = new Category("name2", "description2", "code2");
-		List<Category> categories = new ArrayList<Category>();
-		categories.add(c1);
-		categories.add(c2);
+		
+		List<Category> categories = categoryRepository.findAll();
+		
 		return categories;
 	}
 	
 	public Category getCategory(String categoryName) {
-		return null;
+		Optional<Category> category = categoryRepository.findByName(categoryName);
+		return category.get();
 	}
 }

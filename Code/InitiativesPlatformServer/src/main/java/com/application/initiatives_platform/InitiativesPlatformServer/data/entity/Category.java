@@ -26,6 +26,8 @@ public class Category extends BaseEntity {
 	@NotNull
 	private String code;
 
+	public Category() {}
+	
 	public Category(@NotNull String name,
 			@NotNull String shortDescription, @NotNull String code) {
 		super(new Date(Calendar.getInstance().getTime().getTime()));
