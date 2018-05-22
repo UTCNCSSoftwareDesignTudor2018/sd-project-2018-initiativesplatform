@@ -9,6 +9,7 @@ import com.application.initiatives_platform.InitiativesPlatformServer.data.entit
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.User;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.repository.ProjectRepository;
+import com.application.initiatives_platform.InitiativesPlatformServer.data.repository.UserRepository;
 
 @Service
 public class ProjectService {
@@ -16,10 +17,12 @@ public class ProjectService {
 	@Autowired private ProjectRepository projectRepository;
 	@Autowired private UserService userService;
 	@Autowired private CategoryService categoryService;
+	/// Only for tests
+	@Autowired private UserRepository userRepository;
 	
 	public void save(String name, String shortDescription, String description, byte[] photo, String proponentUserName, String categoryName) {
 		
-		User user = userService.getUser(proponentUserName);
+		User user = userRepository.findByAccountInfoUserName(proponentUserName).get();
 		Category category = categoryService.getCategory(categoryName);
 		Project project = new Project(name, shortDescription, description, photo, user, category);
 		
@@ -33,6 +36,14 @@ public class ProjectService {
 		
 		return projects;
 	
+	}
+	
+	public List<Category> findAllCategories() {
+		
+		List<Category> categories = categoryService.findAll();
+		
+		return categories;
+		
 	}
 	
 	public List<Project> findAllByProponentUserName(String userName) {

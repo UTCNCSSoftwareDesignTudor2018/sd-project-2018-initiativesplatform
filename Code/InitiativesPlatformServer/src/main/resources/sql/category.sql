@@ -1,4 +1,3 @@
-insert into category (id, version, time_stamp, code, name, short_description) values (1, 1, '2017-10-24 14:08:20', '60565-020', 'Consumer Services', 'Proin eu mi.');
 insert into category (id, version, time_stamp, code, name, short_description) values (2, 1, '2018-01-17 05:34:14', '52685-381', 'Miscellaneous', 'Etiam vel augue. Vestibulum rutrum rutrum neque.');
 insert into category (id, version, time_stamp, code, name, short_description) values (3, 1, '2018-04-16 23:53:09', '49889-1906', 'Transportation', 'Nulla nisl.');
 insert into category (id, version, time_stamp, code, name, short_description) values (4, 1, '2017-12-06 03:53:29', '60505-6104', 'Technology', 'Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.');
