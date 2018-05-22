@@ -49,7 +49,7 @@ public class ProjectController {
 
 	@RequestMapping(value = "/propose", method = RequestMethod.POST)
 	public ModelAndView proposeProject(HttpServletRequest request) {
-		
+		System.err.println("HERE");
 		String name = request.getParameter("name");
 		String shortDescription = request.getParameter("shortDescription");
 		String description = request.getParameter("description");
