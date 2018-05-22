@@ -22,7 +22,7 @@ public class ProjectService {
 	
 	public void save(String name, String shortDescription, String description, byte[] photo, String proponentUserName, String categoryName) {
 		
-		User user = userRepository.findByAccountInfoUserName(proponentUserName).get();
+		User user = userRepository.findByAccountInfoUserName(proponentUserName);
 		Category category = categoryService.getCategory(categoryName);
 		Project project = new Project(name, shortDescription, description, photo, user, category);
 		

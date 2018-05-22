@@ -1,5 +1,6 @@
 package com.application.initiatives_platform.InitiativesPlatformServer.business.services;
 
+import java.sql.Date;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,10 @@ public class UserServiceImpl {
 		aInfo.setPassword(userDto.getPassword());
 		aInfo.setUserType(UserType.REGISTERED_USER.type);
 
-		return new User(pInfo, aInfo);
+		User user = new User(pInfo, aInfo);
+		user.setVersion(Long.valueOf(1));
+		user.setTimeStamp(new Date(System.currentTimeMillis()));
+		
+		return user;
 	}
 }

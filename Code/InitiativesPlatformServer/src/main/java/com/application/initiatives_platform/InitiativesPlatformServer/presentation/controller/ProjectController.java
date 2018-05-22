@@ -1,4 +1,4 @@
-package com.application.initiatives_platform.InitiativesPlatformServer.controllers;
+package com.application.initiatives_platform.InitiativesPlatformServer.presentation.controller;
 
 import java.util.List;
 
