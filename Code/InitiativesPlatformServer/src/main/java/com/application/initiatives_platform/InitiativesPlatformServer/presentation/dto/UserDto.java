@@ -8,31 +8,31 @@ public class UserDto {
 	@NotNull
 	@NotEmpty
 	private String firstName;
-	
+
 	@NotNull
 	@NotEmpty
 	private String lastName;
-	
+
 	@NotNull
 	@NotEmpty
 	private String idNumber;
-	
+
 	@NotNull
 	@NotEmpty
 	private String email;
-	
+
 	@NotNull
 	@NotEmpty
 	private String phone;
-	
+
 	@NotNull
 	@NotEmpty
 	private String address;
-	
+
 	@NotNull
 	@NotEmpty
 	private String userName;
-	
+
 	@NotNull
 	@NotEmpty
 	private String password;
@@ -40,7 +40,7 @@ public class UserDto {
 	public UserDto() {
 		super();
 	}
-	
+
 	public UserDto(@NotNull @NotEmpty String firstName, @NotNull @NotEmpty String lastName,
 			@NotNull @NotEmpty String idNumber, @NotNull @NotEmpty String email, @NotNull @NotEmpty String phone,
 			@NotNull @NotEmpty String address, @NotNull @NotEmpty String userName, @NotNull @NotEmpty String password) {
@@ -117,5 +117,12 @@ public class UserDto {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDto [firstName=" + firstName + ", lastName=" + lastName + ", idNumber=" + idNumber + ", email="
+				+ email + ", phone=" + phone + ", address=" + address + ", userName=" + userName + ", password="
+				+ password + "]";
 	}
 }

@@ -27,7 +27,7 @@ public class UserController {
 	@Autowired
 	private SecurityService securityService;
 
-	@GetMapping(value = "registration")
+	@GetMapping(value = "register")
 	ModelAndView register() {
 		UserDto userDto = new UserDto();
 		ModelAndView mv = new ModelAndView("registration");
