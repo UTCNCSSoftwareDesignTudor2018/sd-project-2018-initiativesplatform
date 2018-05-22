@@ -1,4 +1,4 @@
-package com.application.initiatives_platform.InitiativesPlatformServer.controllers;
+package com.application.initiatives_platform.InitiativesPlatformServer.presentation.controller;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,14 +18,14 @@ import com.application.initiatives_platform.InitiativesPlatformServer.data.entit
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
 
 @Controller
-@RequestMapping(value = "/registered-user")
+@RequestMapping(value = "/")
 public class RegisteredUserController {
 	
 	@Autowired ProjectService projectService;
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	@ResponseBody public ResponseEntity<Boolean> login(HttpServletRequest request) {
-		return null;
+	@GetMapping(value = "login")
+	public ModelAndView login() {
+		return new ModelAndView("login");
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
