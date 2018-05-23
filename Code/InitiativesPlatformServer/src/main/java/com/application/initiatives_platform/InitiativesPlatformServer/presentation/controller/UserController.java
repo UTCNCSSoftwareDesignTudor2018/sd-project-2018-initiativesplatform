@@ -17,8 +17,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.ProjectService;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.SecurityService;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.UserServiceImpl;
-import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.User;
+import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.ProjectDto;
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.UserDto;
 
 @Controller
@@ -36,7 +36,7 @@ public class UserController {
 	
 	@GetMapping(value = "")
 	ModelAndView home() {
-		List<Project> projects = projectService.getProjectsFromPage(1).getContent();
+		List<ProjectDto> projects = projectService.getProjectsForList(1);
 		ModelAndView mv = new ModelAndView("home");
 		mv.addObject("projects", projects);
 		return mv;

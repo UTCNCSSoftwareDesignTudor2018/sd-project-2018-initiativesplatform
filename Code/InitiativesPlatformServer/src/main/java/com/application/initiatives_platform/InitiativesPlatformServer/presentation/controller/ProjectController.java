@@ -13,12 +13,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.ProjectService;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Category;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
+import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.ProjectDto;
 
 @Controller
 @RequestMapping(value = "/projects")
 public class ProjectController {
-	
-	
+
 	@Autowired
 	private ProjectService projectService;
 
@@ -49,15 +49,15 @@ public class ProjectController {
 
 	@RequestMapping(value = "/propose", method = RequestMethod.POST)
 	public ModelAndView proposeProject(HttpServletRequest request) {
-		System.err.println("HERE");
+
 		String name = request.getParameter("name");
 		String shortDescription = request.getParameter("shortDescription");
 		String description = request.getParameter("description");
 		String category = request.getParameter("category");
-		byte[] photo = request.getParameter("photo").getBytes();
-		
+		byte[] photo = request.getParameter("image").getBytes();
+
 		projectService.save(name, shortDescription, description, photo, "bgircke0", category);
-		
+
 		ModelAndView mv = new ModelAndView("propose-project");
 		List<Category> categories = projectService.findAllCategories();
 		mv.addObject("categories", categories);
@@ -65,4 +65,17 @@ public class ProjectController {
 		return mv;
 	}
 
+	@RequestMapping(value = "/select", method = RequestMethod.GET)
+	public ModelAndView selectProject(HttpServletRequest request) {
+
+		String selectedProjectName = request.getParameter("name");
+
+		ProjectDto selectedProject = projectService.getProjectForList(selectedProjectName);
+
+		ModelAndView mv = new ModelAndView("project-detail");
+
+		mv.addObject("project", selectedProject);
+
+		return mv;
+	}
 }

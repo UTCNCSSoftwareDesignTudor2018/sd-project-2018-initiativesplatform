@@ -37,6 +37,7 @@
 					<div>
 						Choose a picture from the local file system<input id="files" type="file" name="files[]" multiple/><br>
 						<img name="photo" src="" id="photo" width=256 height=256/>
+						<input type="hidden" name="image" id="image"/>
 					</div>
 				</td>
 			</tr>
@@ -49,7 +50,7 @@
 				</td>
 			</tr>
 		</table>
-		<button type="button" onclick="saveProject('name', 'shortDescription', 'description', 'category', 'photo');">Propose</button>
+		<button type="submit">Propose</button>
 	</form>
 	<script>
 	
@@ -72,6 +73,7 @@
             // Render thumbnail.
             var img = document.getElementById('photo');
             img.src = e.target.result;
+            document.getElementById('image').value = e.target.result;
           };
         })(f);
   
@@ -81,7 +83,7 @@
     }
   	
     function saveProject(nameId, shortDescriptionId, descriptionId, categoryId, photoId) {
-    	/*
+		/*
     	var name = $("#" + nameId).val();
     	var shortDescription = $("#" + shortDescriptionId).val();
     	var description = $("#" + descriptionId).val();
@@ -101,7 +103,7 @@
     	$.post('http://localhost:8081/projects/propose', data, function(response) {
     		console.log(response);
     	});
-    	*/
+    
     	
     	var form = new FormData();
     	form.append("name", "");
@@ -126,6 +128,7 @@
     	$.ajax(settings).done(function (response) {
     	  console.log(response);
     	});
+    	*/ 
     }
     
     document.getElementById('files').addEventListener('change', handleFileSelect, false);

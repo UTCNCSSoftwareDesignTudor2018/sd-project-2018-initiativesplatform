@@ -103,4 +103,12 @@ public class User extends BaseEntity {
 	public void setPassword(String password) {
 		this.getAccountInfo().setPassword(password);
 	}
+	
+	public String getFirstName() {
+		return this.getPersonalInfo().getFirstName();
+	}
+	
+	public String getLastName() {
+		return this.getPersonalInfo().getLastName();
+	}
 }

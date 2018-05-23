@@ -16,5 +16,8 @@ public interface ProjectRepository extends PagingAndSortingRepository<Project, L
 
 	public Page<Project> findAll(Pageable pageable);
 
+	public Project findByName(String name);
+
 	public List<Project> findAllByProponentAccountInfoUserName(String userName);
+
 }

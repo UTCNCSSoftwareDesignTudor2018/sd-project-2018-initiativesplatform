@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Initiatives Platform :: Details</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="css/project-detail.css">
+		<script src="scripts/jquery.js"></script>
+		
+		<script src="scripts/modernizr.js"></script>
+	</head>
+	<body>
+		<div class="product clear">
+			<header>
+				<hgroup>
+					<h1 th:text="${project.name}"></h1>
+					<h4 th:text="${project.shortDescription}"></h4>
+				</hgroup>
+			</header>
+			<figure>
+				<img th:src="${project.photo}">
+			</figure>
+			<section>
+				<p th:text="${project.description}"></p>
+				<button>Vote</button> 
+			</section>
+		</div>
+		<script>
+			if ($('html').hasClass('no-details')) {
+				
+				var summary = $('details summary');
+
+				summary.siblings().wrapAll('<div class="slide"></div>');
+
+				$('details:not(.open) summary').siblings('div').hide();
+
+				summary.click(function() { 
+					$(this).siblings('div').toggle();
+	          			$('details').toggleClass('open');
+       			});
+			 }
+		</script>
+
+	</body>
+</html>
