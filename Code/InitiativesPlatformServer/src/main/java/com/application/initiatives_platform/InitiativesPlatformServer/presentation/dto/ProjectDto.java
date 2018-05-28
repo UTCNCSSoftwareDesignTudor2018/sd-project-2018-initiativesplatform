@@ -17,7 +17,11 @@ public class ProjectDto {
 		this.description = project.getDescription();
 		this.category = project.getCategory().getName();
 		this.proponentFullName = project.getProponent().getFirstName() + " " + project.getProponent().getLastName();
-		this.photo = new String(project.getPhoto());
+		if (project.getPhoto() != null) {
+			this.photo = new String(project.getPhoto());
+		} else {
+			this.photo = "";
+		}
 	}
 
 	public String getName() {

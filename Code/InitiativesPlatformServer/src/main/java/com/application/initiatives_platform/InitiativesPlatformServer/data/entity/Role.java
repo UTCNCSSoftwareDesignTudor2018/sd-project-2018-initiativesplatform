@@ -1,39 +1,50 @@
 package com.application.initiatives_platform.InitiativesPlatformServer.data.entity;
 
-import javax.persistence.*;
 import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "role")
-public class Role {
-    private Long id;
-    private String name;
-    private Set<User> users;
+public class Role extends BaseEntity {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	private String name;
+	
+	@ManyToMany(mappedBy = "roles")
+	private Set<User> users;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    @ManyToMany(mappedBy = "roles")
-    public Set<User> getUsers() {
-        return users;
-    }
+	public Set<User> getUsers() {
+		return users;
+	}
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
 }

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,24 +28,18 @@ public class UserController {
 
 	@Autowired
 	private UserServiceImpl userService;
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	@Autowired
 	private SecurityService securityService;
 
 	@Autowired
 	private ProjectService projectService;
-	
-	@GetMapping(value = "")
-	ModelAndView home() {
-		List<ProjectDto> projects = projectService.getProjectsForList(1);
-		ModelAndView mv = new ModelAndView("home");
-		mv.addObject("projects", projects);
-		return mv;
-	}
 
-	
 	@GetMapping(value = "register")
-	ModelAndView register() {
+	public ModelAndView register() {
 		UserDto userDto = new UserDto();
 		ModelAndView mv = new ModelAndView("registration");
 		mv.addObject("user", userDto);
@@ -53,18 +48,39 @@ public class UserController {
 
 	@PostMapping(value = "register")
 	@ResponseBody
-	public RedirectView registerUserAccount(@Valid final UserDto userDto, final HttpServletRequest request) {
+	public RedirectView registerLogic(@Valid final UserDto userDto, final HttpServletRequest request) {
 		User registeredUser = userService.registerUser(userDto);
 		if (registeredUser != null) {
 			securityService.autologin(userDto.getUserName(), userDto.getPassword());
-			return new RedirectView("registration-confirmed-page");
+			return new RedirectView("login");
 		} else {
 			return new RedirectView("registration-failed-page");
 		}
 	}
 	
 	@GetMapping(value = "login")
-	ModelAndView login() {
+	public ModelAndView login() {
 		return new ModelAndView("login");
 	}
+	
+	@PostMapping(value = "login")
+	@ResponseBody
+	public RedirectView loginLogic(final HttpServletRequest request) {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		this.securityService.autologin(username, password);
+		if (this.userDetailsService.loadUserByUsername(username) != null) {
+			return new RedirectView("/");
+		}
+		return null;
+	}
+	
+	@GetMapping(value = "")
+	public ModelAndView home() {
+		List<ProjectDto> projects = projectService.getProjectsForList(1);
+		ModelAndView mv = new ModelAndView("home");
+		mv.addObject("projects", projects);
+		return mv;
+	}
+
 }

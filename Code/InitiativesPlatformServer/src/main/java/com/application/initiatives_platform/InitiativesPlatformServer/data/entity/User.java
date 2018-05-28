@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -15,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user_")
+@Table(name = "_user")
 public class User extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -26,19 +24,9 @@ public class User extends BaseEntity {
 	@Embedded
 	private AccountInfo accountInfo;
 
-	@Column
-	@ElementCollection(targetClass=Role.class)
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "_user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
-
-	@ManyToMany
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
 
 	public User() {
 		super();
@@ -103,12 +91,20 @@ public class User extends BaseEntity {
 	public void setPassword(String password) {
 		this.getAccountInfo().setPassword(password);
 	}
-	
+
 	public String getFirstName() {
 		return this.getPersonalInfo().getFirstName();
 	}
-	
+
 	public String getLastName() {
 		return this.getPersonalInfo().getLastName();
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 }

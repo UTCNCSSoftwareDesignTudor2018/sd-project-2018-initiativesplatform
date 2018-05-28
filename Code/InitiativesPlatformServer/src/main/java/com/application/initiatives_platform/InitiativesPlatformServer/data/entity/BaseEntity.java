@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
@@ -17,7 +18,7 @@ public class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Long id;
 	
 	@Version
@@ -42,6 +43,9 @@ public class BaseEntity implements Serializable {
 		super();
 		this.timeStamp = timeStamp;
 	}
+	
+	@SequenceGenerator(name = "seq-gen", sequenceName = "MY_SEQ_GEN", initialValue = 205, allocationSize = 12)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq-gen")
 
 	public Long getId() {
 		return id;

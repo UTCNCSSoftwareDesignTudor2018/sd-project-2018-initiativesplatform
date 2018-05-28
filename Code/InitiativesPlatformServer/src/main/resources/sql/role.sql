@@ -1,0 +1,1 @@
+insert into role (id, version, time_stamp, name) values (1,1,'2017-09-10 15:52:23','REGULAR_USER');
