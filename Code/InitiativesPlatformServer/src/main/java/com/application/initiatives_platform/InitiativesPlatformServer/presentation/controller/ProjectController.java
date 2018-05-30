@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.ProjectService;
+import com.application.initiatives_platform.InitiativesPlatformServer.business.services.SecurityService;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Category;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.ProjectDto;
@@ -21,6 +22,9 @@ public class ProjectController {
 
 	@Autowired
 	private ProjectService projectService;
+	
+	@Autowired
+	private SecurityService securityService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView getProjects() {
@@ -56,7 +60,9 @@ public class ProjectController {
 		String category = request.getParameter("category");
 		byte[] photo = request.getParameter("image").getBytes();
 
-		projectService.save(name, shortDescription, description, photo, "bgircke0", category);
+		String proponentUsername = this.securityService.findLoggedInUsername();
+		
+		projectService.save(name, shortDescription, description, photo, proponentUsername, category);
 
 		ModelAndView mv = new ModelAndView("propose-project");
 		List<Category> categories = projectService.findAllCategories();
