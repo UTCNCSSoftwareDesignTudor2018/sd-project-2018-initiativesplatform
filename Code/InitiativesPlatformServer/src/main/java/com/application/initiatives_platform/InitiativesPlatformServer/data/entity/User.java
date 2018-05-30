@@ -92,12 +92,60 @@ public class User extends BaseEntity {
 		this.getAccountInfo().setPassword(password);
 	}
 
+	public String getUserType() {
+		return this.getAccountInfo().getUserType();
+	}
+
+	public void setUserType(String userType) {
+		this.getAccountInfo().setUserType(userType);
+	}
+
 	public String getFirstName() {
 		return this.getPersonalInfo().getFirstName();
 	}
 
+	public void setFirstName(String firstName) {
+		this.getPersonalInfo().setFirstName(firstName);
+	}
+
 	public String getLastName() {
 		return this.getPersonalInfo().getLastName();
+	}
+
+	public void setLastName(String lastName) {
+		this.getPersonalInfo().setLastName(lastName);
+	}
+
+	public String getIdNumber() {
+		return this.getPersonalInfo().getIdNumber();
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.getPersonalInfo().setIdNumber(idNumber);
+	}
+
+	public String getEmail() {
+		return this.getPersonalInfo().getEmail();
+	}
+
+	public void setEmail(String email) {
+		this.getPersonalInfo().setEmail(email);
+	}
+
+	public String getPhone() {
+		return this.getPersonalInfo().getPhone();
+	}
+
+	public void setPhone(String phone) {
+		this.getPersonalInfo().setPhone(phone);
+	}
+
+	public String getAddress() {
+		return this.getPersonalInfo().getAddress();
+	}
+
+	public void setAddress(String address) {
+		this.personalInfo.setAddress(address);
 	}
 
 	public Set<Role> getRoles() {

@@ -37,6 +37,14 @@ public class UserController {
 
 	@Autowired
 	private ProjectService projectService;
+	
+	@GetMapping(value = "")
+	public ModelAndView home() {
+		List<ProjectDto> projects = projectService.getProjectsForList(1);
+		ModelAndView mv = new ModelAndView("home");
+		mv.addObject("projects", projects);
+		return mv;
+	}
 
 	@GetMapping(value = "register")
 	public ModelAndView register() {
@@ -48,7 +56,7 @@ public class UserController {
 
 	@PostMapping(value = "register")
 	@ResponseBody
-	public RedirectView registerLogic(@Valid final UserDto userDto, final HttpServletRequest request) {
+	public RedirectView registerLogic(@Valid UserDto userDto, HttpServletRequest request) {
 		User registeredUser = userService.registerUser(userDto);
 		if (registeredUser != null) {
 			securityService.autologin(userDto.getUserName(), userDto.getPassword());
@@ -65,7 +73,7 @@ public class UserController {
 	
 	@PostMapping(value = "login")
 	@ResponseBody
-	public RedirectView loginLogic(final HttpServletRequest request) {
+	public RedirectView loginLogic(HttpServletRequest request) {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		this.securityService.autologin(username, password);
@@ -75,12 +83,18 @@ public class UserController {
 		return null;
 	}
 	
-	@GetMapping(value = "")
-	public ModelAndView home() {
-		List<ProjectDto> projects = projectService.getProjectsForList(1);
-		ModelAndView mv = new ModelAndView("home");
-		mv.addObject("projects", projects);
+	@GetMapping(value = "editProfile")
+	public ModelAndView editProfile() {
+		String userName = this.securityService.findLoggedInUsername();
+		UserDto userDto = this.userService.getUserDto(userName);
+		ModelAndView mv = new ModelAndView("edit-profile");
+		mv.addObject("user", userDto);
 		return mv;
 	}
-
+	
+	@PostMapping(value = "editProfile")
+	public RedirectView editProfileLogic(@Valid UserDto userDto, HttpServletRequest request) {
+		this.userService.editProfile(userDto);
+		return new RedirectView("/");
+	}
 }

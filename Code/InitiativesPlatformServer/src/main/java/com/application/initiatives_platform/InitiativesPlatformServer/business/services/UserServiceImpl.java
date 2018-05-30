@@ -16,7 +16,7 @@ import com.application.initiatives_platform.InitiativesPlatformServer.data.repos
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.UserDto;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -27,10 +27,18 @@ public class UserServiceImpl {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	@Override
 	public User getUser(String userName) {
 		return this.userRepository.findByAccountInfoUserName(userName);
 	}
+	
+	@Override
+	public UserDto getUserDto(String userName) {
+		User user = this.userRepository.findByAccountInfoUserName(userName);
+		return createUserDto(user);
+	}
 
+	@Override
 	public User registerUser(UserDto userDto) {
 
 		User alreadyInUser = userRepository.findByAccountInfoUserName(userDto.getUserName());
@@ -47,6 +55,19 @@ public class UserServiceImpl {
 		this.userRepository.save(userToRegister);
 
 		return userToRegister;
+	}
+	
+	@Override
+	public User editProfile(UserDto userDto) {
+		User oldUserProfile = this.userRepository.findByAccountInfoUserName(userDto.getUserName());
+		User newUserProfile = this.createUserEntity(userDto);
+		newUserProfile.setUserName(oldUserProfile.getUserName());
+		if (userDto.getPassword() != null) {
+			newUserProfile.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+		} else {
+			newUserProfile.setPassword(oldUserProfile.getPassword());
+		}
+		return userRepository.save(newUserProfile);
 	}
 
 	private User createUserEntity(UserDto userDto) {
@@ -68,5 +89,17 @@ public class UserServiceImpl {
 		user.setTimeStamp(new Date(System.currentTimeMillis()));
 		
 		return user;
+	}
+	
+	private UserDto createUserDto(User user) {
+		UserDto userDto = new UserDto();
+		userDto.setFirstName(user.getFirstName());
+		userDto.setLastName(user.getLastName());
+		userDto.setIdNumber(user.getIdNumber());
+		userDto.setEmail(user.getEmail());
+		userDto.setPhone(user.getPhone());
+		userDto.setAddress(user.getAddress());
+		userDto.setUserName(user.getUserName());
+		return userDto;
 	}
 }
