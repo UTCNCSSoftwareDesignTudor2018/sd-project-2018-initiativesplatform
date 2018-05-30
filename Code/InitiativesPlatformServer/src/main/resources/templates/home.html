@@ -46,7 +46,10 @@
 								<div class="product-info smart-form">
 									<div class="row">
 										<div class="col-md-12">
-											<a href="javascript:void(0);" class="btn btn-danger">Favorite</a>
+											<form th:action="@{/projects/favorites/add}" th:method="POST">
+												<input type="hidden" name="projectName" th:value="${project.name}"/>
+												<button type="submit" class="btn btn-danger">Favorite</button>
+											</form>
 											<a href="javascript:void(0);" class="btn btn-info"
 												th:onclick="'selectProject(\'' + ${project.name} + '\');'">More
 												info</a>

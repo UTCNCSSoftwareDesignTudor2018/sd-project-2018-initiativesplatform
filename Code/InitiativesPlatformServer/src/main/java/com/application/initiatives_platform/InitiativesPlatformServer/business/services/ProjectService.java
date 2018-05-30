@@ -1,85 +1,34 @@
 package com.application.initiatives_platform.InitiativesPlatformServer.business.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Category;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
-import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.User;
-import com.application.initiatives_platform.InitiativesPlatformServer.data.repository.ProjectRepository;
-import com.application.initiatives_platform.InitiativesPlatformServer.data.repository.UserRepository;
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.ProjectDto;
 
-@Service
-public class ProjectService {
-
-	@Autowired
-	private ProjectRepository projectRepository;
-	// @Autowired private UserServiceImpl userService;
-	@Autowired
-	private CategoryService categoryService;
-	/// Only for tests
-	@Autowired
-	private UserRepository userRepository;
-
+public interface ProjectService {
 	public void save(String name, String shortDescription, String description, byte[] photo, String proponentUserName,
-			String categoryName) {
+			String categoryName);
 
-		User user = userRepository.findByAccountInfoUserName(proponentUserName);
-		Category category = categoryService.getCategory(categoryName);
-		Project project = new Project(name, shortDescription, description, photo, user, category);
+	public List<Project> findAll();
 
-		projectRepository.save(project);
-	}
+	public List<Category> findAllCategories();
 
-	public List<Project> findAll() {
+	public List<Project> findAllByProponentUserName(String userName);
 
-		List<Project> projects = projectRepository.findAll();
-
-		return projects;
-	}
-
-	public List<Category> findAllCategories() {
-
-		List<Category> categories = categoryService.findAll();
-
-		return categories;
-	}
-
-	public List<Project> findAllByProponentUserName(String userName) {
-
-		List<Project> projectsOfProponent = projectRepository.findAllByProponentAccountInfoUserName(userName);
-
-		return projectsOfProponent;
-	}
-
-	public Page<Project> getProjectsFromPage(int pageNumber) {
-		PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10, Sort.Direction.ASC, "id");
-		return this.projectRepository.findAll(pageRequest);
-	}
+	public Page<Project> getProjectsFromPage(int pageNumber);
 	
-	public Project getProjectByName(String name) {
-		return this.projectRepository.findByName(name);
-	}
+	public Project getProjectByName(String name);
 
-	public List<ProjectDto> getProjectsForList(int pageNumber) {
-		List<Project> projects = getProjectsFromPage(pageNumber).getContent();
-		List<ProjectDto> projectsForList = projects.stream().map(p -> new ProjectDto(p)).collect(Collectors.toList());
-		return projectsForList;
-	}
+	public List<ProjectDto> getProjectsForList(int pageNumber);
 
-	public ProjectDto getProjectForList(String projectName) {
-		return new ProjectDto(this.findByName(projectName));
-	}
+	public ProjectDto getProjectForList(String projectName);
 
-	public Project findByName(String selectedProjectName) {
-		Project project = projectRepository.findByName(selectedProjectName);
-		return project;
-	}
+	public Project findByName(String selectedProjectName);
+
+	public void voteProject(String selectedProjectName, String loggedInUserName);
+
+	public void addToFavorites(String selectedProjectName, String loggedInUserName);
 }

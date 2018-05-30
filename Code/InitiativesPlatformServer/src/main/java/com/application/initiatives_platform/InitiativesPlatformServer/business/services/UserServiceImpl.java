@@ -16,7 +16,7 @@ import com.application.initiatives_platform.InitiativesPlatformServer.data.repos
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.UserDto;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -68,5 +68,12 @@ public class UserServiceImpl {
 		user.setTimeStamp(new Date(System.currentTimeMillis()));
 		
 		return user;
+	}
+	
+	public void save(User user) {}
+
+	@Override
+	public User findByUsername(String username) {
+		return userRepository.findByAccountInfoUserName(username);
 	}
 }

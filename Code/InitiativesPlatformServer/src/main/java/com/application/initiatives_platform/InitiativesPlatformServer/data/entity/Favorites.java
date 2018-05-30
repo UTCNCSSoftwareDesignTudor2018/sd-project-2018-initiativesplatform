@@ -1,5 +1,8 @@
 package com.application.initiatives_platform.InitiativesPlatformServer.data.entity;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -20,6 +23,12 @@ public class Favorites extends BaseEntity {
 	@JoinColumn(name = "project_id")
 	private Project project;
 
+	public Favorites(Project project, User user) {
+		super(new Date(Calendar.getInstance().getTime().getTime()));
+		this.project = project;
+		this.user = user;
+	}
+	
 	public User getUser() {
 		return user;
 	}
