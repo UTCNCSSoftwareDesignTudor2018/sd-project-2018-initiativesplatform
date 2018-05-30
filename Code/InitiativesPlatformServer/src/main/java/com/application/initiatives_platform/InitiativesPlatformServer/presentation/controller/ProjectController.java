@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,9 +23,7 @@ public class ProjectController {
 
 	@Autowired
 	private ProjectService projectService;
-	
-	@Autowired
-	private SecurityService securityService;
+	@Autowired SecurityService securityService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView getProjects() {
@@ -59,10 +58,10 @@ public class ProjectController {
 		String description = request.getParameter("description");
 		String category = request.getParameter("category");
 		byte[] photo = request.getParameter("image").getBytes();
-
-		String proponentUsername = this.securityService.findLoggedInUsername();
 		
-		projectService.save(name, shortDescription, description, photo, proponentUsername, category);
+		String proponentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		projectService.save(name, shortDescription, description, photo, proponentUserName, category);
 
 		ModelAndView mv = new ModelAndView("propose-project");
 		List<Category> categories = projectService.findAllCategories();
@@ -83,5 +82,31 @@ public class ProjectController {
 		mv.addObject("project", selectedProject);
 
 		return mv;
+	}
+	
+	@RequestMapping(value = "/vote", method = RequestMethod.POST)
+	public ModelAndView voteProject(HttpServletRequest request) {
+		
+		String selectedProjectName = request.getParameter("projectName");
+		
+		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		projectService.voteProject(selectedProjectName, loggedInUserName);
+		
+		return new ModelAndView("home");
+		
+	}
+	
+	@RequestMapping(value = "/favorites/add", method = RequestMethod.POST)
+	public ModelAndView addToFavorites(HttpServletRequest request) {
+		
+		String selectedProjectName = request.getParameter("projectName");
+		
+		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		projectService.addToFavorites(selectedProjectName, loggedInUserName);
+		
+		return new ModelAndView("home");
+		
 	}
 }

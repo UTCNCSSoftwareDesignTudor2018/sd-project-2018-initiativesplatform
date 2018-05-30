@@ -47,21 +47,20 @@ function selectProject(projectName) {
 								<div class="product-info smart-form">
 									<div class="row">
 										<div class="col-md-12">
-											<a href="javascript:void(0);" class="btn btn-danger">Favorite</a>
-											<a href="javascript:void(0);" class="btn btn-info" th:onclick="'selectProject(\'' + ${project.name} + '\');'">More	info</a>
+											<form th:action="@{/projects/favorites/add}" th:method="POST">
+												<input type="hidden" name="projectName" th:value="${project.name}"/>
+												<button type="submit" class="btn btn-danger">Favorite</button>
+											</form>
+											<a href="javascript:void(0);" class="btn btn-info"
+												th:onclick="'selectProject(\'' + ${project.name} + '\');'">More	info</a>
 										</div>
 										<div class="col-md-12">
-											<div class="rating">
-												Rating: <label for="stars-rating-5"><i
-													class="fa fa-star text-danger"></i></label> <label
-													for="stars-rating-4"><i
-													class="fa fa-star text-danger"></i></label> <label
-													for="stars-rating-3"><i
-													class="fa fa-star text-danger"></i></label> <label
-													for="stars-rating-2"><i
-													class="fa fa-star text-warning"></i></label> <label
-													for="stars-rating-1"><i
-													class="fa fa-star text-warning"></i></label>
+											<div class="rating">Rating:
+											<label for="stars-rating-5"><i class="fa fa-star text-danger"></i></label>
+											<label for="stars-rating-4"><i class="fa fa-star text-danger"></i></label>
+											<label for="stars-rating-3"><i class="fa fa-star text-danger"></i></label>
+											<label for="stars-rating-2"><i class="fa fa-star text-warning"></i></label>
+											<label for="stars-rating-1"><i class="fa fa-star text-warning"></i></label>
 											</div>
 										</div>
 									</div>

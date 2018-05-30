@@ -3,6 +3,7 @@ package com.application.initiatives_platform.InitiativesPlatformServer.presentat
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class UserController {
 	private ProjectService projectService;
 	
 	@GetMapping(value = "")
-	public ModelAndView home() {
+	public ModelAndView home(HttpServletRequest request, HttpSession session) {
 		List<ProjectDto> projects = projectService.getProjectsForList(1);
 		ModelAndView mv = new ModelAndView("home");
 		mv.addObject("projects", projects);

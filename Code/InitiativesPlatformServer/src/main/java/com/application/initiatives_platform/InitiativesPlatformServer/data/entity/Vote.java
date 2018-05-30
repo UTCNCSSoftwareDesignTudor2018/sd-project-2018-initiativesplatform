@@ -1,5 +1,8 @@
 package com.application.initiatives_platform.InitiativesPlatformServer.data.entity;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -24,6 +27,13 @@ public class Vote extends BaseEntity {
 	@JoinColumn(name = "campaign_id")
 	private Campaign campaign;
 
+	public Vote(Project project, User user, Campaign campaign) {
+		super(new Date(Calendar.getInstance().getTime().getTime()));
+		this.votedProject = project;
+		this.votingUser = user;
+		this.campaign = campaign;
+	}
+	
 	public Project getVotedProject() {
 		return votedProject;
 	}
