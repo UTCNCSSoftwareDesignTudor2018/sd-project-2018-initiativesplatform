@@ -27,6 +27,8 @@ public class Vote extends BaseEntity {
 	@JoinColumn(name = "campaign_id")
 	private Campaign campaign;
 
+	public Vote() {}
+	
 	public Vote(Project project, User user, Campaign campaign) {
 		super(new Date(Calendar.getInstance().getTime().getTime()));
 		this.votedProject = project;

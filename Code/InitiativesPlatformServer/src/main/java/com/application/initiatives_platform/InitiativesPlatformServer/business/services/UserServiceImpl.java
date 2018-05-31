@@ -3,18 +3,22 @@ package com.application.initiatives_platform.InitiativesPlatformServer.business.
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.AccountInfo;
+import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Favorites;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.PersonalInfo;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.User;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.UserType;
+import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Vote;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.repository.RoleRepository;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.repository.UserRepository;
+import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.ProjectDto;
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.UserDto;
 
 @Service
@@ -24,6 +28,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired private RoleRepository roleRepository;
 	@Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired private ProjectService projectService;
+	@Autowired private VoteService voteService;
+	@Autowired private FavoritesService favoritesService;
 	
 	@Override
 	public User getUser(String userName) {
@@ -101,8 +107,18 @@ public class UserServiceImpl implements UserService {
 		return userDto;
 	}
 
-	public List<Project> getProposedProjects(String loggedInUserName) {
+	public List<ProjectDto> getProposedProjects(String loggedInUserName) {
 		List<Project> proposedProjects = projectService.findAllByProponentUserName(loggedInUserName);
-		return proposedProjects;
+		return proposedProjects.stream().map(p -> new ProjectDto(p)).collect(Collectors.toList());
+	}
+
+	public List<ProjectDto> getVotedProjects(String loggedInUserName) {
+		List<Vote> votes = voteService.getByUserName(loggedInUserName);
+		return votes.stream().map(v -> new ProjectDto(v.getVotedProject())).collect(Collectors.toList());
+	}
+
+	public List<ProjectDto> getFavoriteProjects(String loggedInUserName) {
+		List<Favorites> favorites = favoritesService.getByUserName(loggedInUserName);
+		return favorites.stream().map(f -> new ProjectDto(f.getProject())).collect(Collectors.toList());
 	}
 }

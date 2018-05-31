@@ -1,5 +1,7 @@
 package com.application.initiatives_platform.InitiativesPlatformServer.business.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,11 @@ public class FavoritesServiceImpl implements FavoritesService {
 		Favorites favorite = new Favorites(project, user);
 		favoritesRepository.save(favorite);
 		
+	}
+
+	@Override
+	public List<Favorites> getByUserName(String userName) {
+		return favoritesRepository.findAllByUserAccountInfoUserName(userName);
 	}
 
 }

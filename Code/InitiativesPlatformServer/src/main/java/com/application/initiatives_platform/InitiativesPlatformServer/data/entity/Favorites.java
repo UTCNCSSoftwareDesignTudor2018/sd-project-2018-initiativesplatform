@@ -23,6 +23,8 @@ public class Favorites extends BaseEntity {
 	@JoinColumn(name = "project_id")
 	private Project project;
 
+	public Favorites() {}
+	
 	public Favorites(Project project, User user) {
 		super(new Date(Calendar.getInstance().getTime().getTime()));
 		this.project = project;

@@ -20,7 +20,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.ProjectService;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.SecurityService;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.UserServiceImpl;
-import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.User;
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.ProjectDto;
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.UserDto;
@@ -106,7 +105,35 @@ public class UserController {
 	
 		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		List<Project> proposedProjects = userService.getProposedProjects(loggedInUserName);
+		List<ProjectDto> proposedProjects = userService.getProposedProjects(loggedInUserName);
+		
+		ModelAndView mv = new ModelAndView("home");
+		
+		mv.addObject("projects", proposedProjects);
+		
+		return mv;
+	}
+	
+	@GetMapping(value = "votedProjects")
+	public ModelAndView getVotedProjects() {
+	
+		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		List<ProjectDto> proposedProjects = userService.getVotedProjects(loggedInUserName);
+		
+		ModelAndView mv = new ModelAndView("home");
+		
+		mv.addObject("projects", proposedProjects);
+		
+		return mv;
+	}
+	
+	@GetMapping(value = "favoriteProjects")
+	public ModelAndView getFavoriteProjects() {
+	
+		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		List<ProjectDto> proposedProjects = userService.getFavoriteProjects(loggedInUserName);
 		
 		ModelAndView mv = new ModelAndView("home");
 		

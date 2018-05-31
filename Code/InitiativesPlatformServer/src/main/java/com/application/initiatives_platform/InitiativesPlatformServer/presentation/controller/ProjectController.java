@@ -111,7 +111,7 @@ public class ProjectController {
 	@RequestMapping(value = "/comment", method = RequestMethod.POST)
 	public RedirectView comment(HttpServletRequest request) {
 		
-		String commentText = request.getParameter("comment");
+		String commentText = request.getParameter("commentText");
 		
 		String projectName = request.getParameter("projectName");
 		
