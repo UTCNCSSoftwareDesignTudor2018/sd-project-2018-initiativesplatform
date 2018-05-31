@@ -1,3 +1,11 @@
-Please modify this file so it contains ONLY your full name: Surname & First Name
+Ieremias Viorel and Varadi Robert
 
-You can find the related resources at https://github.com/UTCNCSSoftwareDesignTudor2018/Lab2018Info/
+1. Layered Architecture + MVC;
+
+2. DP: Builder + Filter + Repository
+
+3. OneToMany: Project->Comment, ManyToMany: User->Favorites->Project, User->Vote->Project
+
+4. SpringBoot + JPA + Thymeleaf + JavaScript/jQuery
+
+5. Gradle
