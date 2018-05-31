@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Campaign;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Category;
+import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Comment;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.User;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.repository.ProjectRepository;
@@ -25,8 +26,9 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired private VoteService voteService;
 	@Autowired private CampaignService campaignService;
 	@Autowired private FavoritesService favoritesService;
+	@Autowired private CommentService commentService;
 
-	public void save(String name, String shortDescription, String description, byte[] photo, String proponentUserName,
+	public void save(String name, String shortDescription, String description, String photo, String proponentUserName,
 			String categoryName) {
 
 		User user = userService.getUser(proponentUserName);
@@ -96,5 +98,18 @@ public class ProjectServiceImpl implements ProjectService {
 		User user = userService.getUser(loggedInUserName);
 		
 		favoritesService.save(selectedProject, user);
+	}
+
+	@Override
+	public void comment(String projectName, String loggedInUserName, String commentText) {
+		
+		Project project = projectRepository.findByName(projectName);
+		User user = userService.getUser(loggedInUserName);
+		
+		Comment comment = commentService.save(project, user, commentText);
+		
+		project.getComments().add(comment);
+		
+		projectRepository.save(project);
 	}
 }

@@ -1,5 +1,8 @@
 package com.application.initiatives_platform.InitiativesPlatformServer.data.entity;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +28,7 @@ public class Comment extends BaseEntity {
 	}
 	
 	public Comment(User author, String content) {
-		super();
+		super(new Date(Calendar.getInstance().getTime().getTime()));
 		this.author = author;
 		this.content = content;
 	}

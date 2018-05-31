@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<title>Initiatives Platform :: Details</title>
-		<meta charset="utf-8">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/project-detail.css">
-		<script src="scripts/jquery.js"></script>
-		<script src="scripts/modernizr.js"></script>
- 	</head>
-	<body>
+<head>
+<title>Initiatives Platform :: Details</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/project-detail.css">
+
+
+</head>
+<body>
 	<form action="#" th:action="@{/projects/vote}" method="post">
 		<div class="product clear">
 			<header>
 				<hgroup>
-					<h1 th:name="name" th:text="${project.name}"></h1> 
+					<h1 th:name="name" th:text="${project.name}"></h1>
 					<h4 th:text="${project.shortDescription}"></h4>
 				</hgroup>
 			</header>
@@ -21,26 +27,77 @@
 				<img th:src="${project.photo}">
 			</figure>
 			<section>
-				<input type="hidden" th:name="projectName" th:value="${project.name}"></input>
+				<input type="hidden" th:name="projectName"
+					th:value="${project.name}"></input>
 				<p th:text="${project.description}"></p>
 				<button type="submit">Vote</button>
+				<button type="button" class="btn btn-info btn-lg"
+					data-toggle="modal" data-target="#myModal">Comment</button>
 			</section>
 		</div>
+		<div class="container">
+		<!-- Trigger the modal with a button -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Comment</h4>
+					</div>
+					<div class="modal-body">
+						<input type="text" name="commentText" id="commentText"/> <input type="hidden"
+							name="projectName" th:value="${project.name}" id="projectName"/>
+						<button type="button" id="commentProjectButton">Comment</button>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
 	</form>
-		<script>
-			if ($('html').hasClass('no-details')) {
-				
-				var summary = $('details summary');
+	<script>
+		$("#commentProjectButton").on('click', function() {
+				 
+		 	var token =  $('input[name="_csrf"]').attr('value');
+		    $.ajaxSetup({
+		        beforeSend: function(xhr) {
+		            xhr.setRequestHeader('Csrf-Token', token);
+		        }
+		    });
+		    alert(token);
+		    var data = {'projectName': $("#projectName").val(), 'commentText': $("#commentText").val()};
+		    alert(data);
+			$.ajax({
+			    url: 'http://localhost:8081/projects/comment',
+			    type: 'post',
+			    data : data,
+			    contentType : 'application/json',
+			    success: function (data) { console.log(data); },
+			    error: function (data) { console.log(data); }
+			});
 
-				summary.siblings().wrapAll('<div class="slide"></div>');
+		});
+		if ($('html').hasClass('no-details')) {
 
-				$('details:not(.open) summary').siblings('div').hide();
+			var summary = $('details summary');
 
-				summary.click(function() { 
-					$(this).siblings('div').toggle();
-	          			$('details').toggleClass('open');
-       			});
-			 }
-		</script>
-	</body>
+			summary.siblings().wrapAll('<div class="slide"></div>');
+
+			$('details:not(.open) summary').siblings('div').hide();
+
+			summary.click(function() {
+				$(this).siblings('div').toggle();
+				$('details').toggleClass('open');
+			});
+		}
+	</script>
+</body>
 </html>

@@ -9,7 +9,7 @@ import com.application.initiatives_platform.InitiativesPlatformServer.data.entit
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.ProjectDto;
 
 public interface ProjectService {
-	public void save(String name, String shortDescription, String description, byte[] photo, String proponentUserName,
+	public void save(String name, String shortDescription, String description, String photo, String proponentUserName,
 			String categoryName);
 
 	public List<Project> findAll();
@@ -31,4 +31,6 @@ public interface ProjectService {
 	public void voteProject(String selectedProjectName, String loggedInUserName);
 
 	public void addToFavorites(String selectedProjectName, String loggedInUserName);
+
+	public void comment(String projectName, String loggedInUserName, String commentText);
 }

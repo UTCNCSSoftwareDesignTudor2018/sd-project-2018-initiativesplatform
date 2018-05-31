@@ -55,7 +55,7 @@ public class Project extends BaseEntity {
 	}
 
 	public Project(@NotNull String name,
-			@NotNull String shortDescription, @NotNull String description, @NotNull byte[] photo, User proponent,
+			@NotNull String shortDescription, @NotNull String description, @NotNull String photo, User proponent,
 			Category category) {
 		
 		super(new Date(Calendar.getInstance().getTime().getTime()));
@@ -63,7 +63,7 @@ public class Project extends BaseEntity {
 		this.name = name;
 		this.shortDescription = shortDescription;
 		this.description = description;
-		this.photo = photo;
+		this.photo = photo.getBytes();
 		this.proponent = proponent;
 		this.comments = new ArrayList<Comment>();
 		this.category = category;
@@ -86,8 +86,8 @@ public class Project extends BaseEntity {
 		this.description = description;
 	}
 
-	public byte[] getPhoto() {
-		return photo;
+	public String getPhoto() {
+		return new String(photo);
 	}
 
 	public void setPhoto(byte[] photo) {

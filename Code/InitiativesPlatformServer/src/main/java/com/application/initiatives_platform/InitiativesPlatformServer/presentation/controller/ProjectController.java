@@ -10,12 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.ProjectService;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.SecurityService;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Category;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
-import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.ProjectDto;
 
 @Controller
 @RequestMapping(value = "/projects")
@@ -57,7 +57,7 @@ public class ProjectController {
 		String shortDescription = request.getParameter("shortDescription");
 		String description = request.getParameter("description");
 		String category = request.getParameter("category");
-		byte[] photo = request.getParameter("image").getBytes();
+		String photo = request.getParameter("image");
 		
 		String proponentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
 		
@@ -75,7 +75,7 @@ public class ProjectController {
 
 		String selectedProjectName = request.getParameter("name");
 
-		ProjectDto selectedProject = projectService.getProjectForList(selectedProjectName);
+		Project selectedProject = projectService.findByName(selectedProjectName);
 
 		ModelAndView mv = new ModelAndView("project-detail");
 
@@ -85,7 +85,7 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = "/vote", method = RequestMethod.POST)
-	public ModelAndView voteProject(HttpServletRequest request) {
+	public RedirectView voteProject(HttpServletRequest request) {
 		
 		String selectedProjectName = request.getParameter("projectName");
 		
@@ -93,12 +93,11 @@ public class ProjectController {
 		
 		projectService.voteProject(selectedProjectName, loggedInUserName);
 		
-		return new ModelAndView("home");
-		
+		return new RedirectView("/");
 	}
 	
 	@RequestMapping(value = "/favorites/add", method = RequestMethod.POST)
-	public ModelAndView addToFavorites(HttpServletRequest request) {
+	public RedirectView addToFavorites(HttpServletRequest request) {
 		
 		String selectedProjectName = request.getParameter("projectName");
 		
@@ -106,7 +105,21 @@ public class ProjectController {
 		
 		projectService.addToFavorites(selectedProjectName, loggedInUserName);
 		
-		return new ModelAndView("home");
+		return new RedirectView("/");
+	}
+	
+	@RequestMapping(value = "/comment", method = RequestMethod.POST)
+	public RedirectView comment(HttpServletRequest request) {
+		
+		String commentText = request.getParameter("comment");
+		
+		String projectName = request.getParameter("projectName");
+		
+		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		projectService.comment(projectName, loggedInUserName, commentText);
+		
+		return new RedirectView("/");
 		
 	}
 }

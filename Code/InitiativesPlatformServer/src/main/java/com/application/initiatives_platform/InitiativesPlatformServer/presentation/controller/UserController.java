@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.ProjectService;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.SecurityService;
 import com.application.initiatives_platform.InitiativesPlatformServer.business.services.UserServiceImpl;
+import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.User;
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.ProjectDto;
 import com.application.initiatives_platform.InitiativesPlatformServer.presentation.dto.UserDto;
@@ -97,5 +99,19 @@ public class UserController {
 	public RedirectView editProfileLogic(@Valid UserDto userDto, HttpServletRequest request) {
 		this.userService.editProfile(userDto);
 		return new RedirectView("/");
+	}
+	
+	@GetMapping(value = "proposedProjects")
+	public ModelAndView getProposedProjects() {
+	
+		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		List<Project> proposedProjects = userService.getProposedProjects(loggedInUserName);
+		
+		ModelAndView mv = new ModelAndView("home");
+		
+		mv.addObject("projects", proposedProjects);
+		
+		return mv;
 	}
 }

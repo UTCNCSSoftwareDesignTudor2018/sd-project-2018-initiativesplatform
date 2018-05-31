@@ -2,6 +2,7 @@ package com.application.initiatives_platform.InitiativesPlatformServer.business.
 
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.AccountInfo;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.PersonalInfo;
+import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.Project;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.User;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.entity.UserType;
 import com.application.initiatives_platform.InitiativesPlatformServer.data.repository.RoleRepository;
@@ -18,15 +20,11 @@ import com.application.initiatives_platform.InitiativesPlatformServer.presentati
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private RoleRepository roleRepository;
-
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+	@Autowired private UserRepository userRepository;
+	@Autowired private RoleRepository roleRepository;
+	@Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired private ProjectService projectService;
+	
 	@Override
 	public User getUser(String userName) {
 		return this.userRepository.findByAccountInfoUserName(userName);
@@ -101,5 +99,10 @@ public class UserServiceImpl implements UserService {
 		userDto.setAddress(user.getAddress());
 		userDto.setUserName(user.getUserName());
 		return userDto;
+	}
+
+	public List<Project> getProposedProjects(String loggedInUserName) {
+		List<Project> proposedProjects = projectService.findAllByProponentUserName(loggedInUserName);
+		return proposedProjects;
 	}
 }
