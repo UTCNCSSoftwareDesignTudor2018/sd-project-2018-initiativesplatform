@@ -33,4 +33,6 @@ public interface ProjectService {
 	public void addToFavorites(String selectedProjectName, String loggedInUserName);
 
 	public void comment(String projectName, String loggedInUserName, String commentText);
+
+	public void removeFavorites(String selectedProjectName, String loggedInUserName);
 }

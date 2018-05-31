@@ -137,7 +137,7 @@ public class UserController {
 		
 		List<ProjectDto> proposedProjects = userService.getFavoriteProjects(loggedInUserName);
 		
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("favorites");
 		
 		mv.addObject("projects", proposedProjects);
 		

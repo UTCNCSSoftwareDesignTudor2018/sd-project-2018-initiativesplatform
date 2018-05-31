@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title></title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/home.css" />
+<link rel="stylesheet" type="text/css" href="css/app-bar.css" />
+<script>
+function selectProject(projectName) {
+	window.location = 'http://localhost:8081/projects/select?name='
+			+ projectName;
+}
+</script>
+</head>
+<body>
+	<div id="main">
+
+		<div th:insert="app-bar :: app-bar"></div>
+		
+		<div class="container">
+
+			<div th:each="project : ${projects}">
+				<div class="col-xs-12 col-md-6">
+					<div class="prod-info-main prod-wrap clearfix">
+						<div class="row">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="product-image">
+									<img th:src="${project.photo}" class="img-responsive"> <span
+										class="tag2 hot">NEW</span>
+								</div>
+							</div>
+							<div class="col-md-7 col-sm-12 col-xs-12">
+								<div class="product-deatil">
+									<h5 class="name">
+										<a class="title price-container" href="#"
+											th:text=${project.name}></a> <a class="shortDescription"
+											href="#"><span th:text="${project.category}"></span> </a>
+									</h5>
+									<span class="tag1"></span>
+								</div>
+								<div class="description">
+									<p th:text="${project.shortDescription}"></p>
+								</div>
+								<div class="product-info smart-form">
+									<div class="row">
+										<div class="col-md-12">
+											<form th:action="@{/projects/favorites/remove}" th:method="POST">
+												<input type="hidden" name="projectName" th:value="${project.name}"/>
+												<button type="submit" class="btn btn-danger">Remove Favorite</button>
+											</form>
+											<a href="javascript:void(0);" class="btn btn-info"
+												th:onclick="'selectProject(\'' + ${project.name} + '\');'">More	info</a>
+										</div>
+										<div class="col-md-12">
+											<div class="rating">Rating:
+											<label for="stars-rating-5"><i class="fa fa-star text-danger"></i></label>
+											<label for="stars-rating-4"><i class="fa fa-star text-danger"></i></label>
+											<label for="stars-rating-3"><i class="fa fa-star text-danger"></i></label>
+											<label for="stars-rating-2"><i class="fa fa-star text-warning"></i></label>
+											<label for="stars-rating-1"><i class="fa fa-star text-warning"></i></label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="details" hidden="hidden">Hello details</div>
+</body>
+</html>

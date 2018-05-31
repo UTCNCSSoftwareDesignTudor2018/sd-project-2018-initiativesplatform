@@ -108,6 +108,18 @@ public class ProjectController {
 		return new RedirectView("/");
 	}
 	
+	@RequestMapping(value = "/favorites/remove", method = RequestMethod.POST)
+	public RedirectView removeFavorites(HttpServletRequest request) {
+		
+		String selectedProjectName = request.getParameter("projectName");
+		
+		String loggedInUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		projectService.removeFavorites(selectedProjectName, loggedInUserName);
+		
+		return new RedirectView("/");
+	}
+	
 	@RequestMapping(value = "/comment", method = RequestMethod.POST)
 	public RedirectView comment(HttpServletRequest request) {
 		
