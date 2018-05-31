@@ -35,7 +35,10 @@
 					data-toggle="modal" data-target="#myModal">Comment</button>
 			</section>
 		</div>
-		
+		<h2>Comments</h2>
+		<ul>
+			<li th:each="comment: ${project.comments}" th:text="${comment.content}"></li>
+		</ul>
 	</form>
 	<div class="container">
 		<!-- Trigger the modal with a button -->
@@ -67,27 +70,7 @@
 
 	</div>
 	<script>
-		$("#commentProjectButton").on('click', function() {
-				 
-		 	var token =  $('input[name="_csrf"]').attr('value');
-		    $.ajaxSetup({
-		        beforeSend: function(xhr) {
-		            xhr.setRequestHeader('Csrf-Token', token);
-		        }
-		    });
-		    alert(token);
-		    var data = {'projectName': $("#projectName").val(), 'commentText': $("#commentText").val()};
-		    alert(JSON.stringify(data));
-			$.ajax({
-			    url: 'http://localhost:8081/projects/comment',
-			    type: 'post',
-			    data : data,
-			    contentType : 'application/json',
-			    success: function (data) { console.log(data); },
-			    error: function (data) { console.log(data); }
-			});
-
-		});
+		
 		if ($('html').hasClass('no-details')) {
 
 			var summary = $('details summary');

@@ -10,4 +10,6 @@ public interface FavoritesService {
 	public void save(Project project, User user);
 
 	public List<Favorites> getByUserName(String loggedInUserName);
+
+	public void remove(Project project, User user);
 }

@@ -112,4 +112,13 @@ public class ProjectServiceImpl implements ProjectService {
 		
 		projectRepository.save(project);
 	}
+
+	@Override
+	public void removeFavorites(String selectedProjectName, String loggedInUserName) {
+		Project project = projectRepository.findByName(selectedProjectName);
+		User user = userService.getUser(loggedInUserName);
+		
+		favoritesService.remove(project, user);
+		
+	}
 }
