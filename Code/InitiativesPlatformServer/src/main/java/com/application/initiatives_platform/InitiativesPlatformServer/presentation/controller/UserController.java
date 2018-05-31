@@ -42,8 +42,10 @@ public class UserController {
 	
 	@GetMapping(value = "")
 	public ModelAndView home(HttpServletRequest request, HttpSession session) {
+		User loggedInUser = this.userService.getUser(this.securityService.findLoggedInUsername());
 		List<ProjectDto> projects = projectService.getProjectsForList(1);
 		ModelAndView mv = new ModelAndView("home");
+		mv.addObject("loggedInUser", loggedInUser);
 		mv.addObject("projects", projects);
 		return mv;
 	}

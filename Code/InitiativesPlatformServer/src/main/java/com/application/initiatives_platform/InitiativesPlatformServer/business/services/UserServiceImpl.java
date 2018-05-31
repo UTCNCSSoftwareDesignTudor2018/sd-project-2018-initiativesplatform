@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			newUserProfile.setPassword(oldUserProfile.getPassword());
 		}
+		userRepository.delete(oldUserProfile);
 		return userRepository.save(newUserProfile);
 	}
 
@@ -104,6 +105,7 @@ public class UserServiceImpl implements UserService {
 		userDto.setPhone(user.getPhone());
 		userDto.setAddress(user.getAddress());
 		userDto.setUserName(user.getUserName());
+		userDto.setPassword("");
 		return userDto;
 	}
 

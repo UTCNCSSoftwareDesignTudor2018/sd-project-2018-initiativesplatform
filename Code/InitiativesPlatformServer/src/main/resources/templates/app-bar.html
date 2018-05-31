@@ -13,7 +13,12 @@
 		<a href="#"><i class="fa fa-search"></i></a> 
 		<a href="#"><i class="fa fa-envelope"></i></a> 
 		<a href="#"><i class="fa fa-globe"></i></a>
-		<a href="editProfile"><i class="fa fa-user"></i></a>
+		<div th:if="${loggedInUser}">
+			<a href="editProfile"><i class="fa fa-user"></i></a>
+		</div>
+		<div th:unless="${loggedInUser}">
+			<a href="login"><i class="fa fa-sign-in"></i></a>
+		</div>
 	</div>
 </body>
 </html>
