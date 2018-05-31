@@ -9,15 +9,25 @@
 </head>
 <body th:fragment="app-bar">
 	<div class="icon-bar">
-		<a class="active" href="#"><i class="fa fa-home"></i></a> 
-		<a href="#"><i class="fa fa-search"></i></a> 
-		<a href="#"><i class="fa fa-envelope"></i></a> 
-		<a href="#"><i class="fa fa-globe"></i></a>
+		<a class="active" href="/"><i class="fa fa-home"></i></a> 
+		<div th:if="${loggedInUser}">
+			<a href="projects/add"><i class="fa fa-puzzle-piece"></i></a>
+		</div>
+		<div th:unless="${loggedInUser}">
+			<a href="#"><i class="fa fa-american-sign-language-interpreting"></i></a>
+		</div>
+		<a href="favorites"><i class="fa fa-star"></i></a>
 		<div th:if="${loggedInUser}">
 			<a href="editProfile"><i class="fa fa-user"></i></a>
 		</div>
 		<div th:unless="${loggedInUser}">
 			<a href="login"><i class="fa fa-sign-in"></i></a>
+		</div>
+		<div th:if="${loggedInUser}">
+			<a href="logout"><i class="fa fa-sign-out"></i></a>
+		</div>
+		<div th:unless="${loggedInUser}">
+			<a href="register"><i class="fa fa-plus"></i></a>
 		</div>
 	</div>
 </body>
