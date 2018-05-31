@@ -117,7 +117,7 @@ public class ProjectController {
 		
 		projectService.removeFavorites(selectedProjectName, loggedInUserName);
 		
-		return new RedirectView("/");
+		return new RedirectView("/favorites");
 	}
 	
 	@RequestMapping(value = "/comment", method = RequestMethod.POST)
@@ -131,7 +131,7 @@ public class ProjectController {
 		
 		projectService.comment(projectName, loggedInUserName, commentText);
 		
-		return new RedirectView("/");
+		return new RedirectView("/projects/select?name=" + projectName);
 		
 	}
 }

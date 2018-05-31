@@ -25,6 +25,11 @@ public class SecurityServiceImpl implements SecurityService {
 	public String findLoggedInUsername() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
+	
+	@Override
+	public void logout() {
+		SecurityContextHolder.getContext().setAuthentication(null);
+	}
 
 	@Override
 	public void autologin(String username, String password) {

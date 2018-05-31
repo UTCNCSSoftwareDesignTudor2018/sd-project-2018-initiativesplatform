@@ -87,11 +87,19 @@ public class UserController {
 		return null;
 	}
 	
+	@GetMapping(value = "logout")
+	public RedirectView logout() {
+		this.securityService.logout();
+		return new RedirectView("/");
+	}
+	
 	@GetMapping(value = "editProfile")
 	public ModelAndView editProfile() {
+		User loggedInUser = this.userService.getUser(this.securityService.findLoggedInUsername());
 		String userName = this.securityService.findLoggedInUsername();
 		UserDto userDto = this.userService.getUserDto(userName);
 		ModelAndView mv = new ModelAndView("edit-profile");
+		mv.addObject("loggedInUser", loggedInUser);
 		mv.addObject("user", userDto);
 		return mv;
 	}
@@ -100,6 +108,16 @@ public class UserController {
 	public RedirectView editProfileLogic(@Valid UserDto userDto, HttpServletRequest request) {
 		this.userService.editProfile(userDto);
 		return new RedirectView("/");
+	}
+	
+	@GetMapping(value = "favorites")
+	public ModelAndView favoriteProjects(HttpServletRequest request) {
+		User loggedInUser = this.userService.getUser(this.securityService.findLoggedInUsername());
+		List<ProjectDto> projects = this.userService.getFavoriteProjects(this.securityService.findLoggedInUsername());
+		ModelAndView mv = new ModelAndView("favorite-projects");
+		mv.addObject("loggedInUser", loggedInUser);
+		mv.addObject("projects", projects);
+		return mv;
 	}
 	
 	@GetMapping(value = "proposedProjects")
